@@ -1,0 +1,32 @@
+{
+  "name": "lit-cli",
+  "version": "0.0.1",
+  "description": "Lit element cli",
+  "main": "src/index.js",
+  "bin": {
+    "lit-cli": "bin/lit-cli",
+    "lit": "bin/lit-cli"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "cli",
+    "lit-cli"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "arg": "^4.1.1",
+    "chalk": "^2.4.2",
+    "esm": "^3.2.25",
+    "execa": "^2.1.0",
+    "inquirer": "^7.0.0",
+    "listr": "^0.14.3",
+    "ncp": "^2.0.0",
+    "pkg-install": "^1.0.0"
+  }
+}
