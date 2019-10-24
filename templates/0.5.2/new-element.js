@@ -1,6 +1,6 @@
 import {LitElement, html} from '@polymer/lit-element';
 
-class {{className}} extends ReduxMixin(LitElement) {
+class {{className}} extends LitElement {
   static get is() {
     return '{{fileName}}';
   }
@@ -13,7 +13,7 @@ class {{className}} extends ReduxMixin(LitElement) {
     super();
   }
 
-  _render({}) {
+  _render() {
     return html`
       <style>
       </style>

@@ -4,25 +4,15 @@ import path from 'path';
 import Listr from 'listr';
 import * as Mustache from 'Mustache';
 
-const currentFileUrl = import.meta.url;
-const LIT_VERSION = '0.5.2'
-
-async function copyTemplateFiles(templateDir, targetDirectory) {
-  return copy(templateDir, targetDirectory, {
-    clobber: false,
-  });
-}
+const FILE_URL = import.meta.url;
+const LIT_VERSION = '0.5.2';
 
 function formatName(name) {
   const fileName = name.replace(/\s{1,}/g,'-').toLowerCase();
   console.log(fileName);
   const className = toCamleCase(fileName);
   const variableName = className.charAt(0).toLowerCase() + className.substring(1);
-  return {
-    className,
-    fileName,
-    variableName
-  }
+  return { className, fileName, variableName };
 }
 
 function toCamleCase(str) {
@@ -77,9 +67,7 @@ async function renderFileWithNames(template, nameValues) {
 
 export async function generateElement(options) {
   const targetDirectory =  options.targetDirectory || process.cwd();
-
-  const templateDir = path.resolve(new URL(currentFileUrl).pathname, '../../templates/', LIT_VERSION);
-
+  const templateDir = path.resolve(new URL(FILE_URL).pathname, '../../templates/', LIT_VERSION);
   const nameValues = formatName(options.name);
 
   const tasks = new Listr([
