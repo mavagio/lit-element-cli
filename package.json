@@ -1,6 +1,6 @@
 {
-  "name": "lit-cli",
-  "version": "0.0.1",
+  "name": "lit-element-cli",
+  "version": "0.0.2",
   "description": "Lit element cli",
   "main": "src/index.js",
   "bin": {
