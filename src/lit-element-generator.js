@@ -1,11 +1,11 @@
 import chalk from 'chalk';
 import fs from 'fs';
 import path from 'path';
-import { promisify } from 'util';
 import Listr from 'listr';
 import * as Mustache from 'Mustache';
 
-const access = promisify(fs.access);
+const currentFileUrl = import.meta.url;
+const LIT_VERSION = '0.5.2'
 
 async function copyTemplateFiles(templateDir, targetDirectory) {
   return copy(templateDir, targetDirectory, {
@@ -60,17 +60,15 @@ async function saveFile(path, content) {
 }
 
 async function generateLitFiles(templateDir, targetDir, nameValues) {
-  const newElementTemplate = await getContentFromFile(templateDir + '/new-element.js');
-  const indexjsTemplate = await getContentFromFile(templateDir + '/index.js');
-  const newElementTestTemplate = await getContentFromFile(templateDir + '/new-element.test.js');
+  saveFileBasedOnTemplate(templateDir, targetDir, nameValues, 'index.js', 'index.js');
+  saveFileBasedOnTemplate(templateDir, targetDir, nameValues, 'new-element.js', nameValues.fileName);
+  saveFileBasedOnTemplate(templateDir, targetDir, nameValues, 'new-element.test.js', nameValues.fileName + '.test');
+}
 
-  const litElementContent = await renderFileWithNames(newElementTemplate, nameValues);
-  const indexjsContent = await renderFileWithNames(indexjsTemplate, nameValues);
-  const newElementTestContent = await renderFileWithNames(newElementTestTemplate, nameValues);
-
-  saveFile(targetDir + '/' + nameValues.fileName + '.js', litElementContent);
-  saveFile(targetDir + '/index.js', indexjsContent);
-  saveFile(targetDir + '/' + nameValues.fileName + '.test.js', newElementTestContent);
+async function saveFileBasedOnTemplate(templateDir, targetDir, nameValues, templateName, finalName) {
+  const template = await getContentFromFile(templateDir + '/' + templateName);
+  const content = await renderFileWithNames(template, nameValues);
+  saveFile(targetDir + '/' + finalName + '.js', content);
 }
 
 async function renderFileWithNames(template, nameValues) {
@@ -78,18 +76,9 @@ async function renderFileWithNames(template, nameValues) {
 }
 
 export async function generateElement(options) {
-  const LIT_VERSION = '0.5.2'
-  const currentFileUrl = import.meta.url;
   const targetDirectory =  options.targetDirectory || process.cwd();
 
   const templateDir = path.resolve(new URL(currentFileUrl).pathname, '../../templates/', LIT_VERSION);
-
-  try {
-    await access(templateDir, fs.constants.R_OK);
-  } catch (err) {
-    console.error('%s Invalid template name', chalk.red.bold('ERROR'));
-    process.exit(1);
-  }
 
   const nameValues = formatName(options.name);
 
@@ -99,7 +88,7 @@ export async function generateElement(options) {
       task: () => createFilesFolder(targetDirectory + '/' + nameValues.fileName),
     },
     {
-      title: 'Create lit element',
+      title: 'Create lit element files',
       task: () => generateLitFiles(templateDir, targetDirectory + '/' + nameValues.fileName, nameValues),
     },
   ])

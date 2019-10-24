@@ -1,5 +1,4 @@
 import arg from 'arg';
-import inquirer from 'inquirer';
 import {generateElement} from './lit-element-generator';
 import chalk from 'chalk';
 
