@@ -1,11 +1,11 @@
 import {instantiateForTest} from '../../util/test-utils';
-import NewElement from './new-element';
+import {{className}} from './{{fileName}}';
 
-let newElement;
+let {{variableName}};
 beforeEach(() => {
-  newElement = instantiateForTest(NewElement);
+  {{variableName}} = instantiateForTest({{className}} );
 });
 
-test('new-element has working is', () => {
-  expect(newElement.constructor.is).toEqual('new-element');
+test('{{fileName}} has working is', () => {
+  expect({{variableName}}.constructor.is).toEqual({{fileName}});
 });

@@ -1,55 +1,31 @@
 import arg from 'arg';
 import inquirer from 'inquirer';
-import {createProject} from './main';
+import {generateElement} from './lit-element-generator';
+import chalk from 'chalk';
 
 function parseArgumentsIntoOptions(rawArgs) {
-  const args = arg(
-    {
-      '--yes': Boolean,
-      '--no': Boolean,
-      '--generate': Boolean,
-      '-g': '--generate',
-      '-y': '--yes',
-      '-n': '--no',
-    },
-    {
-      argv: rawArgs.slice(2),
-    }
-  );
+  let args;
+  try {
+    args = arg(
+      {
+        '--generate': String,
+        '-g': '--generate',
+      },
+      {
+        argv: rawArgs.slice(2),
+      }
+    );
+  } catch(err) {
+    console.error(err);
+    console.error('%s Invalid arguments', chalk.red.bold('ERROR:'));
+    process.exit(1); 
+  }
   return {
-    skipPrompts: args['--yes'] || false,
-    generate: args['--generate'] || false,
-  }
-}
-
-function validateOptions(options) {
-  console.log(options);
-}
-
-async function promptForMissingOptions(options) {
-  const defaultName = 'new-element';
-
-  const questions = [];
-  if(!options.version) {
-    questions.push({
-      type: 'input',
-      name: 'name',
-      message: 'Please give a name to new element',
-      default: 'new-element',
-    })
-  }
-
-  const answers = await inquirer.prompt(questions);
-  return {
-    ...options,
-    name: options.name || answers.name,
-    git: options.git || answers.git,
-  }
+    name: args['--generate'] || false,
+  };
 }
 
 export async function cli(args) {
   let options = parseArgumentsIntoOptions(args);
-  validateOptions(options);
-  options =  await promptForMissingOptions(options);
-  await createProject(options);
+  await generateElement(options);
 }

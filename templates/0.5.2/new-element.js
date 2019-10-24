@@ -1,8 +1,8 @@
 import {LitElement, html} from '@polymer/lit-element';
 
-class NewElement extends ReduxMixin(LitElement) {
+class {{className}} extends ReduxMixin(LitElement) {
   static get is() {
-    return 'new-element';
+    return '{{fileName}}';
   }
 
   static get properties() {
@@ -17,11 +17,11 @@ class NewElement extends ReduxMixin(LitElement) {
     return html`
       <style>
       </style>
-      <span>new element works</span>
+      <span>{{className}} works!</span>
     `;
   }
 }
 
-export default NewElement;
+export default {{className}};
 
-customElements.define(NewElement.is, NewElement);
+customElements.define({{className}}.is, {{className}});
