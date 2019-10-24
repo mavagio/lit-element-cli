@@ -1,6 +1,6 @@
 {
   "name": "lit-element-cli",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Lit element cli",
   "main": "src/index.js",
   "bin": {
@@ -17,7 +17,12 @@
     "cli",
     "lit-cli"
   ],
-  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/martinavagyan/lit-element-cli.git"
+  },
+  "homepage": "https://github.com/martinavagyan/lit-element-cli",
+  "author": "Martin Avagyan",
   "license": "ISC",
   "dependencies": {
     "arg": "4.1.1",
