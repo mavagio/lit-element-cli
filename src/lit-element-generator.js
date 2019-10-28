@@ -50,7 +50,7 @@ async function saveFile(path, content) {
 }
 
 async function generateLitFiles(templateDir, targetDir, nameValues) {
-  saveFileBasedOnTemplate(templateDir, targetDir, nameValues, 'index.js', 'index.js');
+  saveFileBasedOnTemplate(templateDir, targetDir, nameValues, 'index.js', 'index');
   saveFileBasedOnTemplate(templateDir, targetDir, nameValues, 'new-element.js', nameValues.fileName);
   saveFileBasedOnTemplate(templateDir, targetDir, nameValues, 'new-element.test.js', nameValues.fileName + '.test');
 }
